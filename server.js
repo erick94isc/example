@@ -3,6 +3,7 @@ var express = require('express'),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
   usuario = require('./api/models/user'), //created model loading here
+  posicion = require('./api/models/posicion'), //created model loading here
   bodyParser = require('body-parser');
   
 // mongoose instance connection url connection
@@ -15,8 +16,9 @@ app.use(bodyParser.json());
 
 
 var routes = require('./api/routes/user'); //importing route
+var posicionRoute = require('./api/routes/posicion');
 routes(app); //register the route
-
+posicionRoute(app);
 
 app.listen(port);
 
