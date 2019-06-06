@@ -3,7 +3,9 @@ var express = require('express'),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
   usuario = require('./api/models/user'), //created model loading here
-  posicion = require('./api/models/posicion'), //created model loading here
+  posicion = require('./api/models/posicion'), 
+  jugador = require('./api/models/player'),
+  equipo = require('./api/models/team'),
   bodyParser = require('body-parser');
  
  var cors = require('cors');
@@ -20,8 +22,12 @@ app.use(cors());
 
 var routes = require('./api/routes/user'); //importing route
 var posicionRoute = require('./api/routes/posicion');
+var jugadorRoute = require('./api/routes/player');
+var equipoRoute = require('./api/routes/team');
 routes(app); //register the route
 posicionRoute(app);
+jugadorRoute(app);
+equipoRoute(app);
 
 app.listen(port);
 

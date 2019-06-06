@@ -11,8 +11,8 @@ var playerSchema = new Schema({
     type:String,
     required: [true, 'Why no lastname?']
   },
-  edad: {  
-    type:String,
+  fecha_nacimiento: {  
+    type:Date,
     required: false
   },
   posicion:{
@@ -40,7 +40,7 @@ var playerSchema = new Schema({
   Created_date: {
     type: Date,
     default: Date.now
-  },
+  }
 });
 
-module.exports = mongoose.model('jugador', playerSchema);
+module.exports = mongoose.model('jugador', playerSchema,'jugador');
