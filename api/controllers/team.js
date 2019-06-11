@@ -3,7 +3,7 @@
 
 var mongoose = require('mongoose'),
 Equipo = mongoose.model('equipo');
-var ObjectId = require('mongoose').ObjectId; 
+var ObjectId = require('mongoose').Types.ObjectId; 
 
 exports.all_teams = function(req, res) {
   Equipo.find({}, function(err, task) {
@@ -25,10 +25,7 @@ exports.create_team = function(req, res) {
 
 
 exports.read_team = function(req, res) {
- var id_team = new ObjectId(req.params.id);
- console.log(req.params.id);
-   Equipo.find({ _id: ObjectId(req.params.id) }, function(err, task) {
-
+ Equipo.findById(req.params.id, function(err, task) {
     if (err)
       res.send(err);
     res.json(task);
