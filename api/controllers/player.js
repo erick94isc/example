@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 Jugador = mongoose.model('jugador');
 
 exports.all_players = function(req, res) {
-  Jugador.find({}, function(err, task) {
+  Jugador.find({equipo: req.params.id}, function(err, task) {
     if (err)
       res.send(err);
     res.json(task);
@@ -14,12 +14,17 @@ exports.all_players = function(req, res) {
 
 
 exports.create_player = function(req, res) {
-  var new_player = new Usuario(req.body);
-  new_player.save(function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+  var new_player = new Jugador(req.body);
+  //new_player.equipo = ObjectId.fromString(req.params.id);
+  console.log(req.params.id);
+  /*new_player.save(function(err, task) {
+    if (!err){
+     res.json(task);
+     console.log(task);
+    }else{
+         res.send(err);
+    }
+  });*/
 };
 
 

@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 
 var teamSchema = new Schema({
-
 	nombre:{
 		type:String,
 		required:true

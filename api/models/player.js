@@ -12,9 +12,12 @@ var playerSchema = new Schema({
     required: [true, 'Why no lastname?']
   },
   fecha_nacimiento: {  
-    type:Date,
+    type:String,
     required: false
   },
+  telefono:{
+    type:Number
+  } ,
   posicion:{
     type: String,  
     required: true
@@ -37,6 +40,10 @@ var playerSchema = new Schema({
              required: false
          }   
   }],
+  equipo: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'equipo'
+    },
   Created_date: {
     type: Date,
     default: Date.now
