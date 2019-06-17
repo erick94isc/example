@@ -10,10 +10,6 @@ var teamSchema = new Schema({
 		type:String,
 		required:true
 	},
-	categoria:{
-		type:String,
-		required:true
-	},
 	color:{
 		type:String,
 		required:false

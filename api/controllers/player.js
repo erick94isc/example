@@ -3,55 +3,95 @@
 
 var mongoose = require('mongoose'),
 Jugador = mongoose.model('jugador');
+const multer = require('multer');
+const upload = multer({dest:'uploads/'});
+const STATUS_ENUM = require('./status');
 
-exports.all_players = function(req, res) {
-  Jugador.find({equipo: req.params.id}, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+exports.all_players = async function(req, res) {
+ try{
+    const jugadores= await Jugador.find({equipo: req.params.id});
+      if(jugadores){
+           res.status(200).send({code:200, jugadores});
+      }
+       else{
+                throw new StatusError(STATUS_ENUM.STATUS_ERROR.NOT_FOUND);
+            }
+ }
+ catch(error){
+       console.error(error)
+                if (error instanceof StatusError) {
+                  res.status(error.status).send(error)
+                } else {
+                  res.status(500).send({ ...STATUS_ENUM.STATUS_ERROR.ERROR, jugador })
+            }
+ }
 };
 
 
-exports.create_player = function(req, res) {
-  var new_player = new Jugador(req.body);
-  //new_player.equipo = ObjectId.fromString(req.params.id);
-  console.log(req.params.id);
-  /*new_player.save(function(err, task) {
-    if (!err){
-     res.json(task);
-     console.log(task);
-    }else{
-         res.send(err);
-    }
-  });*/
+exports.create_player = async function(req, res) {
+ try{
+    var new_player = new Jugador(req.body);
+    const response = await new_player.save();
+     res.status(200).send({message:'it was ok'});
+ }
+ catch(error){
+    if (error instanceof StatusError)  {
+          res.status(error.status).send(error)
+        }
+      console.error(error)
+      res.status(500).send({code:500, message: 'Something Went Wrong' })
+   }
 };
 
 
-exports.read_player = function(req, res) {
-  Jugador.findById(req.params.id, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+exports.read_player = async function(req, res) {
+   try{
+     const jugador = await Jugador.findById(req.params.id);
+     if(jugador){
+        res.status(200).send({code:200,jugador});
+     }else{
+       throw new StatusError(STATUS_ENUM.STATUS_ERROR.NOT_FOUND);
+     }
+   }catch(error){
+       if (error instanceof StatusError)  {
+          res.status(error.status).send(error)
+        }
+      console.error(error)
+      res.status(500).send({code:500, message: 'Something Went Wrong' })
+   }
 };
 
 
-exports.update_player = function(req, res) {
-  Jugador.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+exports.update_player = async function(req, res) {
+   try{
+     const jugador= await Jugador.findOneAndUpdate({_id: req.params.id}, req.body, {new: true});
+     res.status(200).send({code:200,message:'Player updated',response});
+   }catch(error){
+        if (e instanceof StatusError) {
+            res.status(e.status).send(e)
+          } else {
+            res.status(500).send({code:500, message: 'Something Went Wrong' })
+          }
+   }
 };
 
 
-exports.delete_player = function(req, res) {
-  Jugador.remove({
-    _id: req.params.id
-  }, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json({ message: 'Player successfully deleted' });
-  });
+exports.delete_player = async function(req, res) {
+ try{
+    const response= await  Jugador.remove({_id: req.params.id});
+    res.status(200).send({code:200,message:'Jugador deleted',response})
+  }catch(error){
+       if (e instanceof StatusError) {
+            res.status(e.status).send(e)
+          } else {
+            res.status(500).send({code:500, message: 'Something Went Wrong' })
+          }
+  }
 };
+
+function StatusError(error) {
+  const { status, message } = error
+  this.status = status
+  this.message = message
+ 
+}
