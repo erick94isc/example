@@ -4,9 +4,8 @@ module.exports = function(app) {
  
   // todoList Routes
   app.route('/equipo')
-    .get(teamController.all_teams)
+  	.get(teamController.all_teams)
     .post(teamController.create_team);
-
 
   app.route('/equipo/:id')
     .get(teamController.read_team)

@@ -33,11 +33,13 @@ var playerSchema = new Schema({
   tarjetas:[{
          amarillas:{
              type: Number,
-             required: false
+             required: false,
+             default:0
          },
          rojas:{
              type: Number,
-             required: false
+             required: false,
+             default:0
          }   
   }],
   equipo: { 

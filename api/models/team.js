@@ -17,6 +17,14 @@ var teamSchema = new Schema({
 	Created_date: {
     type: Date,
     default: Date.now
+  },
+  posicion:{
+  	type:Number,
+  	default:0
+  },
+  puntos:{
+  	type:Number,
+  	default:0
   }
 });
 

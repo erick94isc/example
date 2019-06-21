@@ -1,4 +1,4 @@
-const STATUS_ERROR = {
+exports.STATUS_ERROR = {
   ERROR: {
     status: 500,
     message: 'Something Went Wrong'
@@ -24,7 +24,7 @@ const STATUS_ERROR = {
   },
   DUPLICATE: {
     status: 403,
-    message: 'The doctor already has an account'
+    message: 'The record already exists'
   },
   CODE_INVALID: {
     status: 403,

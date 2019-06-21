@@ -30,6 +30,12 @@ exports.all_players = async function(req, res) {
 
 exports.create_player = async function(req, res) {
  try{
+   var nombreJugador = req.body.nombre;
+   var apellidoJugador = req.body.apellido;
+   var jugador = await Jugador.findOne({nombre:nombreJugador, apellido:apellidoJugador});
+       if(jugador){
+          throw new StatusError(STATUS_ENUM.STATUS_ERROR.DUPLICATE);
+      }
     var new_player = new Jugador(req.body);
     const response = await new_player.save();
      res.status(200).send({message:'it was ok'});
@@ -37,9 +43,9 @@ exports.create_player = async function(req, res) {
  catch(error){
     if (error instanceof StatusError)  {
           res.status(error.status).send(error)
-        }
-      console.error(error)
-      res.status(500).send({code:500, message: 'Something Went Wrong' })
+        }else{
+      res.status(500).send({ message: 'Something Went Wrong' })
+      }
    }
 };
 
@@ -53,40 +59,43 @@ exports.read_player = async function(req, res) {
        throw new StatusError(STATUS_ENUM.STATUS_ERROR.NOT_FOUND);
      }
    }catch(error){
+           console.error(error)
        if (error instanceof StatusError)  {
           res.status(error.status).send(error)
+        }else{        
+           res.status(500).send({code:500, message: 'Something Went Wrong' })
         }
-      console.error(error)
-      res.status(500).send({code:500, message: 'Something Went Wrong' })
    }
 };
 
 
 exports.update_player = async function(req, res) {
    try{
-     const jugador= await Jugador.findOneAndUpdate({_id: req.params.id}, req.body, {new: true});
-     res.status(200).send({code:200,message:'Player updated',response});
+     const jugador= await Jugador.findOneAndUpdate({_id: req.params.id}, req.body, {useFindAndModify: false});
+     res.status(200).send({code:200,message:'Player updated',jugador});
    }catch(error){
-        if (e instanceof StatusError) {
-            res.status(e.status).send(e)
-          } else {
-            res.status(500).send({code:500, message: 'Something Went Wrong' })
-          }
+           console.error(error)
+       if (error instanceof StatusError)  {
+          res.status(error.status).send(error)
+        }else{        
+           res.status(500).send({code:500, message: 'Something Went Wrong' })
+        }
    }
 };
 
 
 exports.delete_player = async function(req, res) {
  try{
-    const response= await  Jugador.remove({_id: req.params.id});
+    const response= await  Jugador.deleteOne({_id: req.params.id});
     res.status(200).send({code:200,message:'Jugador deleted',response})
   }catch(error){
-       if (e instanceof StatusError) {
-            res.status(e.status).send(e)
-          } else {
-            res.status(500).send({code:500, message: 'Something Went Wrong' })
-          }
-  }
+           console.error(error)
+       if (error instanceof StatusError)  {
+          res.status(error.status).send(error)
+        }else{        
+           res.status(500).send({code:500, message: 'Something Went Wrong' })
+        }
+   }
 };
 
 function StatusError(error) {
