@@ -22,7 +22,7 @@ exports.all_players = async function(req, res) {
                 if (error instanceof StatusError) {
                   res.status(error.status).send(error)
                 } else {
-                  res.status(500).send({ ...STATUS_ENUM.STATUS_ERROR.ERROR, jugador })
+                  res.status(500).send({ ...STATUS_ENUM.STATUS_ERROR.ERROR })
             }
  }
 };
@@ -38,7 +38,7 @@ exports.create_player = async function(req, res) {
       }
     var new_player = new Jugador(req.body);
     const response = await new_player.save();
-     res.status(200).send({message:'it was ok'});
+     res.status(200).send({code:200,message:'it was ok'});
  }
  catch(error){
     if (error instanceof StatusError)  {
@@ -72,6 +72,7 @@ exports.read_player = async function(req, res) {
 exports.update_player = async function(req, res) {
    try{
      const jugador= await Jugador.findOneAndUpdate({_id: req.params.id}, req.body, {useFindAndModify: false});
+     console.log(jugador);
      res.status(200).send({code:200,message:'Player updated',jugador});
    }catch(error){
            console.error(error)

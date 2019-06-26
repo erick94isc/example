@@ -86,7 +86,6 @@ exports.read_team = async function(req, res) {
 
 exports.update_team = async function(req, res) {
    try{
-     console.log( req.params.id);
      const equipo= await Equipo.findOneAndUpdate({_id: req.params.id}, req.body,  {useFindAndModify: false});
      res.status(200).send({code:200,message:'Team updated',equipo});
    }

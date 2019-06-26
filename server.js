@@ -6,7 +6,8 @@ var express = require('express'),
   posicion = require('./api/models/posicion'), 
   jugador = require('./api/models/player'),
   equipo = require('./api/models/team'),
-  torneo = require('./api/models/torneo')
+  torneo = require('./api/models/torneo'),
+  partido = require('./api/models/match')
   bodyParser = require('body-parser');
  
  var cors = require('cors');
@@ -26,10 +27,12 @@ var posicionRoute = require('./api/routes/posicion');
 var jugadorRoute = require('./api/routes/player');
 var equipoRoute = require('./api/routes/team');
 var torneoRoute = require('./api/routes/torneo');
+var partidoRoute = require('./api/routes/match');
 routes(app); //register the route
 posicionRoute(app);
 jugadorRoute(app);
 equipoRoute(app);
+partidoRoute(app);
 torneoRoute(app);
 
 app.listen(port);

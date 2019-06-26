@@ -30,18 +30,17 @@ var playerSchema = new Schema({
       type: Number,
       required: false
   },
-  tarjetas:[{
-         amarillas:{
+  tarjetas_amarillas:{
              type: Number,
              required: false,
              default:0
          },
-         rojas:{
+  tarjetas_rojas:{
              type: Number,
              required: false,
              default:0
          }   
-  }],
+  ,
   equipo: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'equipo'

@@ -5,13 +5,25 @@ var Schema = mongoose.Schema;
 var usuarioSchema = new Schema({
    nombre:{
     type: String,
-    required: 'enter username'
+    required: [true,'enter username']
   },
   apellido:{
     type:String,
     required: [true, 'Why no lastname?']
   },
-  username: {  
+  username:{
+    type:String,
+    required:true
+  },
+  email: {  
+    type:String,
+    required:true
+  },
+  password:{
+    type:String,
+    required:true,
+  },
+  rol:{
     type:String
   },
   Created_date: {
