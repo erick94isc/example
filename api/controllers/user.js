@@ -85,12 +85,23 @@ exports.create_user = async function(req, res) {
 };
 
 
-exports.read_user = function(req, res) {
-  Usuario.findById(req.params.id, function(err, task) {
-    if (err)
-      res.send(err);
-    res.json(task);
-  });
+exports.read_user = async function(req, res) {
+  try{
+    let usuario = await Usuario.findById(req.params.id);
+    console.log(usuario);
+     if(usuario){
+        res.status(200).send({code:200,usuario});
+     }else{
+       throw new StatusError(STATUS_ENUM.STATUS_ERROR.NOT_FOUND);
+     }
+  }catch(error){
+            console.error(error)
+       if (error instanceof StatusError)  {
+          res.status(error.status).send(error)
+        }else{        
+           res.status(500).send({code:500, message: 'Something Went Wrong' })
+        }
+  }
 };
 
 

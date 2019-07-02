@@ -38,6 +38,27 @@ exports.all_teams = async function(req, res) {
   }
 };
 
+exports.teams_filter = async function(req,res){
+  try{
+    const equipo= req.query.equipo;
+    const equipos = await Equipo.find({'nombre':{$ne:equipo}});
+      if(equipos){
+          res.status(200).send({code:200,equipos})
+    }else{
+         throw new StatusError(STATUS_ENUM.NOT_FOUND);
+    }
+
+  }catch(error){
+    console.log(error);
+    if (error instanceof StatusError) {
+             res.status(error.status).send(error)
+          }
+        else{
+         res.status(500).send(...STATUS_ENUM.STATUS_ERROR.ERROR);
+        }
+  }
+}
+
 
 exports.create_team = async function(req, res) {
   try{

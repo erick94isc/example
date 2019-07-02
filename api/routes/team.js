@@ -11,4 +11,7 @@ module.exports = function(app) {
     .get(teamController.read_team)
     .put(teamController.update_team)
     .delete(teamController.delete_team);
+
+    app.route('/equipoFilter')
+    .get(teamController.teams_filter);
 };
